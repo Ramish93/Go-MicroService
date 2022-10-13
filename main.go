@@ -3,18 +3,18 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
+	"yt-go-microservice/handlers"
 )
 
 func main() {
 	// Hello world, the web server
+	l:= log.New(os.Stdout, "product-api", log.LstdFlags)
+	helloHandler := handlers.NewHello(l)
 
-	http.HandleFunc("/", func(rw http.ResponseWriter, req*http.Request) {
-		
-	})
+	mux := http.NewServeMux()
+	mux.Handle("/", helloHandler)
+
 	
-	http.HandleFunc("/goodby", func(http.ResponseWriter, *http.Request){
-		log.Println("goodby, world!")
-	})
-
-	http.ListenAndServe(":9090", nil)
+	http.ListenAndServe(":9090", mux)
 }
