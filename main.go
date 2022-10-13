@@ -14,12 +14,11 @@ func main() {
 	// Hello world, the web server
 	l:= log.New(os.Stdout, "product-api", log.LstdFlags,)
 
-	helloHandler := handlers.NewHello(l)
-	goodbyeHandler := handlers.NewGoodbye(l)
+	ph := handlers.NewProduct(l)
 
 	mux := http.NewServeMux()
-	mux.Handle("/", helloHandler)
-	mux.Handle("/goodbye", goodbyeHandler)
+	mux.Handle("/", ph)
+	
 // server:=
 	s:= &http.Server{
 		Addr: ":9090",
