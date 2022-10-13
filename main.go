@@ -17,8 +17,7 @@ func main() {
 		fmt.Fprintf(rw, "hello %s\n", data)
 
 		if err!=nil {
-			rw.WriteHeader(http.StatusBadRequest)
-			rw.Write([]byte("Bad request"))
+			http.Error(rw, "opps error", http.StatusBadRequest)
 			return
 		}
 	})
