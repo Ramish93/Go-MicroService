@@ -24,6 +24,12 @@ func (p *Products) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		p.addProduct(rw,r)
 		return
 	}
+	//get id out of URI
+	if r.Method == http.MethodPut {
+		//expect Id in URL
+		r := `/([0-9]+)`
+		
+	}
 
 	//catch all
 	rw.WriteHeader(http.StatusMethodNotAllowed)
