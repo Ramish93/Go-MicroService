@@ -25,11 +25,12 @@ func (p *Products) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//get id out of URI
-	if r.Method == http.MethodPut {
-		//expect Id in URL
-		r := `/([0-9]+)`
-		
-	}
+	// if r.Method == http.MethodPut {
+	// 	//expect Id in URL
+	// 	r := regexp.MustCompile(`/([0-9]+)`)
+	// 	r.FindAllStringSubmatch(r.URI.Path, -1)
+
+	// }
 
 	//catch all
 	rw.WriteHeader(http.StatusMethodNotAllowed)
@@ -52,4 +53,5 @@ func (p *Products) addProduct(rw http.ResponseWriter, r *http.Request){
 	if err != nil {
 		http.Error(rw, "unable to unmashell json", http.StatusBadRequest)
 	}
+	p.l.Printf("prod: %#v",prod)
 }
