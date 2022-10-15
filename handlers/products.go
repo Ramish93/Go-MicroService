@@ -53,5 +53,6 @@ func (p *Products) addProduct(rw http.ResponseWriter, r *http.Request){
 	if err != nil {
 		http.Error(rw, "unable to unmashell json", http.StatusBadRequest)
 	}
-	p.l.Printf("prod: %#v",prod)
+	// p.l.Printf("prod: %#v",prod)
+	data.AddProduct(prod)
 }
