@@ -28,21 +28,25 @@ func (p *Products) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 	// get id out of URI
 	if r.Method == http.MethodPut {
+		p.l.Panicln("Put", r.URL.Path)
 		//expect Id in URI
 		reg := regexp.MustCompile(`/([0-9]+)`)
 		g:= reg.FindAllStringSubmatch(r.URL.Path, -1)
 
-		if len(g) !=1{
+		if len(g) !=1 {
+			p.l.Panicln("invalid URI more than one Id", g)
 			http.Error(rw, "Invalid uri", http.StatusBadRequest)
 			return
 		}
-		if len(g[0]) !=1{
+		if len(g[0]) !=2 {
+			p.l.Panicln("invalid URI more than one capture group")
 			http.Error(rw, "Invalid uri", http.StatusBadRequest)
 			return
 		}
 
 		idString := g[0][1]
 		id, err := strconv.Atoi(idString)
+		p.l.Panicln("invalid URI cant conv to int", idString)
 		if err != nil {
 			http.Error(rw, "Invalid uri", http.StatusBadRequest)
 			return
