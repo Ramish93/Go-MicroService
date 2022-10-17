@@ -38,6 +38,9 @@ func AddProduct(p *Product){
 	p.ID = getNextID()
 	productList = append(productList, p)
 }
+
+
+
 func getNextID()int{
 	lp:= productList[len(productList) -1]
 	return lp.ID + 1
