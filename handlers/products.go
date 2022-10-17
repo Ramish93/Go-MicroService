@@ -51,7 +51,7 @@ func (p *Products) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			http.Error(rw, "Invalid uri", http.StatusBadRequest)
 			return
 		}
-		p.updateProducts(id, rw http.ResponseWriter, r *http.Request)
+		p.updateProducts(id, rw, r)
 		return
 	}
 
@@ -80,7 +80,7 @@ func (p *Products) addProduct(rw http.ResponseWriter, r *http.Request){
 	data.AddProduct(prod)
 }
 
-func (p *Products) updateProducts(id int, rw http.ResponseWriter, r *http.Requesterr){
+func (p *Products) updateProducts(id int, rw http.ResponseWriter, r *http.Request){
 	p.l.Println("handle Put products")
 
 	prod := &data.Product{}
@@ -88,4 +88,6 @@ func (p *Products) updateProducts(id int, rw http.ResponseWriter, r *http.Reques
 	if err != nil {
 		http.Error(rw, "unable to unmashell json", http.StatusBadRequest)
 	}
+
+	data.UpdateProduct(id, prod)
 }
