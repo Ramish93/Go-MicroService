@@ -3,7 +3,10 @@ package handlers
 import (
 	"log"
 	"net/http"
+	"strconv"
 	"yt-go-microservice/data"
+
+	"github.com/gorilla/mux"
 )
 
 type Products struct{
@@ -35,11 +38,17 @@ func (p *Products) addProduct(rw http.ResponseWriter, r *http.Request){
 	data.AddProduct(prod)
 }
 
-func (p Products) updateProducts(id int, rw http.ResponseWriter, r *http.Request){
-	p.l.Println("handle Put products")
+func (p Products) UpdateProducts(rw http.ResponseWriter, r *http.Request){
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		http.Error(rw, "unable to parse id", http.StatusBadRequest)
+		return
+	}
+	p.l.Println("handle Put products", id)
 
 	prod := &data.Product{}
-	err := prod.FromJSON(r.Body)
+	err = prod.FromJSON(r.Body)
 	if err != nil {
 		http.Error(rw, "unable to unmashell json", http.StatusBadRequest)
 	}
