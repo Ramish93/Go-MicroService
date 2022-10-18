@@ -8,6 +8,8 @@ import (
 	"os/signal"
 	"time"
 	"yt-go-microservice/handlers"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -16,13 +18,16 @@ func main() {
 
 	ph := handlers.NewProducts(l)
 
-	mux := http.NewServeMux()
-	mux.Handle("/", ph)
+	sm := mux.NewRouter()
+
+	getRouter := sm.Methods("GET").Subrouter()
+	getRouter.HandleFunc("/", ph.GetProducts)
+	// sm.Handle("/products", ph)
 	
 // server:=
 	s:= &http.Server{
 		Addr: ":9090",
-		Handler: mux,
+		Handler: sm,
 		IdleTimeout: 120*time.Second,
 		ReadTimeout: 1*time.Second,
 		WriteTimeout: 1*time.Second,

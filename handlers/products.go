@@ -3,8 +3,6 @@ package handlers
 import (
 	"log"
 	"net/http"
-	"regexp"
-	"strconv"
 	"yt-go-microservice/data"
 )
 
@@ -16,52 +14,7 @@ func NewProducts(l *log.Logger) *Products {
 	return &Products{l}
 }
 
-func (p *Products) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet{
-		p.getProducts(rw, r)
-		return
-	}
-	//handle an update
-	if r.Method == http.MethodPost{
-		p.addProduct(rw,r)
-		return
-	}
-	// get id out of URI
-	if r.Method == http.MethodPut {
-		p.l.Println("Put", r.URL.Path)
-		//expect Id in URI
-		reg := regexp.MustCompile(`/([0-9]+)`)
-		g:= reg.FindAllStringSubmatch(r.URL.Path, -1)
-
-		if len(g) !=1 {
-			p.l.Println("invalid URI more than one Id", g)
-			http.Error(rw, "Invalid URL", http.StatusBadRequest)
-			return
-		}
-
-		if len(g[0]) !=2 {
-			p.l.Println("invalid URI more than one capture group")
-			http.Error(rw, "Invalid URL", http.StatusBadRequest)
-			return
-		}
-
-		idString := g[0][1]
-		id, err := strconv.Atoi(idString)
-		p.l.Println("invalid URI cant conv to int", idString)
-
-		if err != nil {
-			http.Error(rw, "Invalid URI", http.StatusBadRequest)
-			return
-		}
-		p.updateProducts(id, rw, r)
-		return
-	}
-
-	//catch all
-	rw.WriteHeader(http.StatusMethodNotAllowed)
-}
-
-func (p *Products) getProducts(rw http.ResponseWriter, h *http.Request){
+func (p *Products) GetProducts(rw http.ResponseWriter, h *http.Request){
 	//list of products
 	lp := data.GetProducts()
 	err := lp.ToJSON(rw)
