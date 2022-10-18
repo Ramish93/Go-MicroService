@@ -28,7 +28,7 @@ func (p *Products) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 	// get id out of URI
 	if r.Method == http.MethodPut {
-		p.l.Panicln("Put", r.URL.Path)
+		p.l.Println("Put", r.URL.Path)
 		//expect Id in URI
 		reg := regexp.MustCompile(`/([0-9]+)`)
 		g:= reg.FindAllStringSubmatch(r.URL.Path, -1)
@@ -48,8 +48,9 @@ func (p *Products) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		idString := g[0][1]
 		id, err := strconv.Atoi(idString)
 		p.l.Println("invalid URI cant conv to int", idString)
+
 		if err != nil {
-			http.Error(rw, "Invalid uri", http.StatusBadRequest)
+			http.Error(rw, "Invalid URI", http.StatusBadRequest)
 			return
 		}
 		p.updateProducts(id, rw, r)
@@ -81,7 +82,7 @@ func (p *Products) addProduct(rw http.ResponseWriter, r *http.Request){
 	data.AddProduct(prod)
 }
 
-func (p *Products) updateProducts(id int, rw http.ResponseWriter, r *http.Request){
+func (p Products) updateProducts(id int, rw http.ResponseWriter, r *http.Request){
 	p.l.Println("handle Put products")
 
 	prod := &data.Product{}
@@ -95,7 +96,7 @@ func (p *Products) updateProducts(id int, rw http.ResponseWriter, r *http.Reques
 		http.Error(rw, "product not found", http.StatusNotFound)
 	}
 
-	if err!= nil {
+	if err != nil {
 		http.Error(rw, "unable to update product", http.StatusInternalServerError)
 		return
 	}
