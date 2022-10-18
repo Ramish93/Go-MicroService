@@ -35,18 +35,19 @@ func (p *Products) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 		if len(g) !=1 {
 			p.l.Println("invalid URI more than one Id", g)
-			http.Error(rw, "Invalid uri", http.StatusBadRequest)
+			http.Error(rw, "Invalid URL", http.StatusBadRequest)
 			return
 		}
+
 		if len(g[0]) !=2 {
-			p.l.Panicln("invalid URI more than one capture group")
-			http.Error(rw, "Invalid uri", http.StatusBadRequest)
+			p.l.Println("invalid URI more than one capture group")
+			http.Error(rw, "Invalid URL", http.StatusBadRequest)
 			return
 		}
 
 		idString := g[0][1]
 		id, err := strconv.Atoi(idString)
-		p.l.Panicln("invalid URI cant conv to int", idString)
+		p.l.Println("invalid URI cant conv to int", idString)
 		if err != nil {
 			http.Error(rw, "Invalid uri", http.StatusBadRequest)
 			return
