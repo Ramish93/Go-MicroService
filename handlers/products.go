@@ -12,7 +12,7 @@ type Products struct{
 	l *log.Logger
 }
 
-func NewProduct(l *log.Logger) *Products {
+func NewProducts(l *log.Logger) *Products {
 	return &Products{l}
 }
 
@@ -34,7 +34,7 @@ func (p *Products) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		g:= reg.FindAllStringSubmatch(r.URL.Path, -1)
 
 		if len(g) !=1 {
-			p.l.Panicln("invalid URI more than one Id", g)
+			p.l.Println("invalid URI more than one Id", g)
 			http.Error(rw, "Invalid uri", http.StatusBadRequest)
 			return
 		}
@@ -89,5 +89,13 @@ func (p *Products) updateProducts(id int, rw http.ResponseWriter, r *http.Reques
 		http.Error(rw, "unable to unmashell json", http.StatusBadRequest)
 	}
 
-	data.UpdateProduct(id, prod)
+	err = data.UpdateProduct(id, prod)
+	if err == data.ErrProductNotFound{
+		http.Error(rw, "product not found", http.StatusNotFound)
+	}
+
+	if err!= nil {
+		http.Error(rw, "unable to update product", http.StatusInternalServerError)
+		return
+	}
 }

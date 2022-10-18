@@ -14,7 +14,7 @@ func main() {
 	// Hello world, the web server
 	l:= log.New(os.Stdout, "product-api", log.LstdFlags,)
 
-	ph := handlers.NewProduct(l)
+	ph := handlers.NewProducts(l)
 
 	mux := http.NewServeMux()
 	mux.Handle("/", ph)
