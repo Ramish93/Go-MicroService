@@ -19,15 +19,6 @@ func NewProducts(l *log.Logger) *Products {
 	return &Products{l}
 }
 
-func (p *Products) GetProducts(rw http.ResponseWriter, h *http.Request){
-	//list of products
-	lp := data.GetProducts()
-	err := lp.ToJSON(rw)
-	if err != nil {
-		http.Error(rw, "unable to marshal products", http.StatusInternalServerError)
-	}
-}
-
 func (p *Products) AddProduct(rw http.ResponseWriter, r *http.Request){
 	p.l.Println("handle post products")
 
