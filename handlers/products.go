@@ -11,6 +11,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type productsResponse struct {
+	Body []data.Product
+}
+
 type Products struct{
 	l *log.Logger
 }
