@@ -34,7 +34,9 @@ func main() {
 
 	opts := middleware.RedocOpts{SpecURL: "/swagger.yml"}
 	sh := middleware.Redoc(opts, nil)
+
 	getRouter.Handle("/docs", sh)
+	getRouter.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
 	
 // server:=
 	s:= &http.Server{
