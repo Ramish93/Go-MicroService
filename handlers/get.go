@@ -5,7 +5,10 @@ import (
 	"yt-go-microservice/data"
 )
 
-
+// swagger:route GET /products products listProducts
+// Return a list of products from the database
+// responses:
+//	200: productsResponse
 func (p *Products) GetProducts(rw http.ResponseWriter, h *http.Request){
 	//list of products
 	lp := data.GetProducts()
