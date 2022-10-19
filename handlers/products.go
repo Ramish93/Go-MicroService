@@ -32,7 +32,6 @@ func (p *Products) AddProduct(rw http.ResponseWriter, r *http.Request){
 	p.l.Println("handle post products")
 
 	prod := r.Context().Value(KeyProduct{}).(data.Product)
-	// p.l.Printf("prod: %#v",prod)
 	data.AddProduct(&prod)
 }
 
