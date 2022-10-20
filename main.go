@@ -29,7 +29,7 @@ func main() {
 	putRouter.Use(ph.MiddlewareValidateProduct)
 
 	postRouter := sm.Methods(http.MethodPost).Subrouter()
-	postRouter.HandleFunc("/",ph.AddProduct)
+	postRouter.HandleFunc("/",ph.Create)
 	postRouter.Use(ph.MiddlewareValidateProduct)
 
 	opts := middleware.RedocOpts{SpecURL: "/swagger.yml"}
