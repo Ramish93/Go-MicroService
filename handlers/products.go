@@ -15,6 +15,14 @@ type productsResponse struct {
 	Body []data.Product
 }
 
+//swagger:parameters, deleteProduct
+type ProductIDParameterWrapper struct {
+	//id of product to delete from the database
+	ID int `json:"id"`
+}
+
+type productsNoContent struct {}
+
 type Products struct{
 	l *log.Logger
 }
