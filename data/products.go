@@ -27,6 +27,11 @@ type Product struct {
 	DeletedOn   string  `json:"-"`
 }
 
+// Validation contains
+type Validation struct {
+	validate *validator.Validate
+}
+
 func (p *Product) FromJSON(r io.Reader) error{
 	e:= json.NewDecoder(r)
 	return e.Decode(p)
@@ -146,4 +151,12 @@ func findProduct(id int) (*Product, int, error) {
 	}
 
 	return nil, -1, ErrProductNotFound 
+}
+
+// NewValidation creates a new Validation type
+func NewValidation() *Validation {
+	validate := validator.New()
+	validate.RegisterValidation("sku", validateSKU)
+
+	return &Validation{validate}
 }

@@ -23,8 +23,9 @@ type ProductIDParameterWrapper struct {
 
 type productsNoContent struct {}
 
-type Products struct{
+type Products struct {
 	l *log.Logger
+	v *data.Validation
 }
 
 // GenericError is a generic error message returned by a server
@@ -32,8 +33,8 @@ type GenericError struct {
 	Message string `json:"message"`
 }
 
-func NewProducts(l *log.Logger) *Products {
-	return &Products{l}
+func NewProducts(l *log.Logger, v *data.Validation) *Products {
+	return &Products{l, v}
 }
 
 
