@@ -32,7 +32,7 @@ func main() {
 	postRouter.HandleFunc("/",ph.Create)
 	postRouter.Use(ph.MiddlewareValidateProduct)
 
-	opts := middleware.RedocOpts{SpecURL: "/swagger.yml"}
+	opts := middleware.RedocOpts{SpecURL: "/swagger.yaml"}
 	sh := middleware.Redoc(opts, nil)
 
 	getRouter.Handle("/docs", sh)
