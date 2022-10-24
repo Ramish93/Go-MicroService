@@ -43,7 +43,8 @@ func main() {
 	getRouter.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
 
 	//CORS
-	ch:= gohandlers.CORS(gohandlers.AllowedOrigins([]string{"http://localhost:3000"}))
+	// * for allowing every origin requests
+	ch:= gohandlers.CORS(gohandlers.AllowedOrigins([]string{"*"}))
 
 	
 // server:=
